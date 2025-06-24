@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Feliz Cumpleaños, Dani</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100%;
+      background: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .contenedor {
+      position: relative;
+      width: 320px;
+      height: 240px;
+      z-index: 2;
+    }
+
+    .sobre {
+      background: #ad2f6e;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: opacity 1s ease;
+    }
+
+    .solapa {
+      width: 0; height: 0;
+      position: absolute;
+      top: 0; left: 0;
+      border-left: 160px solid transparent;
+      border-right: 160px solid transparent;
+      border-bottom: 130px solid #ffd3dc;
+      transform-origin: top;
+      transition: transform 1s ease;
+    }
+
+    .corazon {
+      width: 24px;
+      height: 24px;
+      background: red;
+      position: absolute;
+      top: 90px;
+      left: calc(50% - 12px);
+      animation: latido 1.2s infinite;
+    }
+    .corazon::before, .corazon::after {
+      content: "";
+      width: 24px;
+      height: 24px;
+      background: red;
+      border-radius: 50%;
+      position: absolute;
+    }
+    .corazon::before { top: -12px; left: 0; }
+    .corazon::after { left: 12px; top: 0; }
+
+    @keyframes latido {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.15); }
+    }
+
+    .sobre.abierto .solapa { transform: rotateX(-180deg); }
+    .sobre.abierto .corazon { opacity: 0; animation: none; }
+    .sobre.abierto { opacity: 0; pointer-events: none; }
+
+    .tarjeta {
+      position: absolute;
+      top: -70px;
+      left: -60px;
+      width: 360px;
+      padding: 30px;
+      background: white;
+      border-radius: 30px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: transform 1s ease, opacity 1s ease;
+      z-index: 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+    }
+
+    .tarjeta.mostrar {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    #mensaje {
+      font-size: 32px;
+      font-family: 'Great Vibes', cursive;
+      background: linear-gradient(90deg, #ff66cc, #cc2062, #a307a8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 8px #ffaad4;
+      line-height: 1.6;
+      white-space: pre-line;
+      display: inline-block;
+      padding: 0 10px;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+        canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 4;
+      pointer-events: none;
+      display: none;
+    }
+
+    .globos {
+      position: fixed;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      z-index: 4;
+      display: none;
+      pointer-events: none;
+    }
+
+    .globos.mostrar { display: block; }
+
+    .globo {
+      position: absolute;
+      width: 30px;
+      height: 40px;
+      border-radius: 60% 60% 50% 50%;
+      animation: flotando 8s linear infinite;
+    }
+
+    .rojo { background: #e63946; left: 10%; animation-delay: 0s; }
+    .azul { background: #457b9d; left: 30%; animation-delay: 1s; }
+    .verde { background: #2a9d8f; left: 50%; animation-delay: 2s; }
+    .amarillo { background: #f4d35e; left: 70%; animation-delay: 3s; }
+    .rosa { background: #f48fb1; left: 90%; animation-delay: 4s; }
+
+    @keyframes flotando {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-120vh); opacity: 0; }
+    }
+
+    .pastelito {
+      width: 60px;
+      height: 60px;
+      background: #ff9aa2;
+      border-radius: 10px 10px 5px 5px;
+      position: absolute;
+      bottom: 20px;
+      left: calc(50% - 30px);
+      animation: rebote 1s infinite alternate;
+      z-index: 6;
+      box-shadow: 0 0 15px rgba(255, 138, 138, 0.6);
+    }
+
+    .vela {
+      width: 6px;
+      height: 20px;
+      background: #fff;
+      position: absolute;
+      top: -20px;
+      left: 27px;
+      cursor: pointer;
+    }
+
+    .llama {
+      width: 10px;
+      height: 15px;
+      background: orange;
+      border-radius: 50%;
+      position: absolute;
+      top: -10px;
+      left: -2px;
+      animation: parpadeo 0.4s infinite alternate;
+    }
+
+    @keyframes parpadeo {
+      from { transform: scale(1); opacity: 1; }
+      to { transform: scale(1.1); opacity: 0.6; }
+    }
+
+    @keyframes rebote {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confeti"></canvas>
+  <div class="fondoOscuro" id="fondoNegro"></div>
+
+  <div class="globos" id="globos">
+    <div class="globo rojo"></div>
+    <div class="globo azul"></div>
+    <div class="globo verde"></div>
+    <div class="globo amarillo"></div>
+    <div class="globo rosa"></div>
+  </div>
+
+  <div class="contenedor">
+    <div class="sobre" id="sobre">
+      <div class="solapa"></div>
+      <div class="corazon"></div>
+    </div>
+    <div class="tarjeta" id="tarjeta">
+      <div id="mensaje"></div>
+    </div>
+  </div>
+
+  <div class="pastelito" id="pastelito" style="display: none;">
+    <div class="vela" id="vela">
+      <div class="llama" id="llama"></div>
+    </div>
+  </div>
+
+  <audio id="musica" loop>
+    <source src="happy-birthday-jazz.mp3" type="audio/mpeg" />
+  </audio>
+  <script>
+      window.addEventListener('DOMContentLoaded', () => {
+      const sobre = document.getElementById('sobre');
+      const tarjeta = document.getElementById('tarjeta');
+      const fondo = document.getElementById('fondoNegro');
+      const globos = document.getElementById('globos');
+      const canvas = document.getElementById('confeti');
+      const mensajeEl = document.getElementById('mensaje');
+      const pastelito = document.getElementById('pastelito');
+      const audio = document.getElementById('musica');
+
+      sobre.addEventListener('click', () => {
+        sobre.classList.add('abierto');
+        fondo.classList.add('mostrar');
+        document.body.style.background = '#3b0a57';
+
+        // Reproducir música desde el inicio
+        audio.currentTime = 0;
+        audio.play().catch(() => {
+          console.warn('El navegador bloqueó la reproducción automática.');
+        });
+
+        setTimeout(() => {
+          tarjeta.classList.add('mostrar');
+          globos.classList.add('mostrar');
+          canvas.style.display = 'block';
+          escribirMensaje("Feliz Cumpleaños\n\nFelices 23 Dani,\nsabes que te quiero mucho,\nte mando un abrazo y un besote");
+          lanzarConfeti();
+
+          pastelito.style.display = 'block';
+
+          const vela = document.getElementById('vela');
+          const llama = document.getElementById('llama');
+          vela.addEventListener('click', () => {
+            llama.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            llama.style.opacity = '0';
+            llama.style.transform = 'translateY(-10px) scale(0.6)';
+          });
+        }, 1000);
+      });
+
+      function escribirMensaje(texto, velocidad = 40) {
+        let i = 0;
+        mensajeEl.textContent = '';
+        function escribir() {
+          if (i < texto.length) {
+            mensajeEl.textContent += texto.charAt(i);
+            i++;
+            setTimeout(escribir, velocidad);
+          }else {
+            const corazon = document.createElement("span");
+            corazon.textContent = " 💗";
+            corazon.style.opacity = "0";
+            corazon.style.transition = "opacity 1s ease";
+            mensajeEl.appendChild(corazon);
+            setTimeout(() => {
+              corazon.style.opacity = "1";
+            }, 200);
+        }
+    }escribir();
+      }
+
+      function lanzarConfeti() {
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const confetis = Array.from({ length: 70 }, () => ({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 100,
+          color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+          tilt: Math.floor(Math.random() * 10) - 10
+        }));
+
+        function draw() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          confetis.forEach(c => {
+            ctx.beginPath();
+            ctx.fillStyle = c.color;
+            ctx.ellipse(c.x, c.y, c.r, c.r / 2, 0, 0, 2 * Math.PI);
+            ctx.fill();
+          });
+          update();
+        }
+
+        function update() {
+          confetis.forEach(c => {
+            c.y += 2;
+            c.x += Math.sin(c.d);
+            if (c.y > canvas.height) {
+              c.y = 0;
+              c.x = Math.random() * canvas.width;
+            }
+          });
+        }
+
+        setInterval(draw, 30);
+      }
+
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    });
+  </script>
+</body>
+</html>
